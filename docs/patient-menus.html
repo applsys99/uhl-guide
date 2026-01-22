@@ -3,44 +3,436 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Patient Menus - UHL Guide</title>
+    <title>Patient Menu</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            line-height: 1.6;
-        }
-        h1 {
-            color: #333;
-        }
-        .disclaimer {
-            background-color: #fff3cd;
-            border-left: 4px solid #ffc107;
-            padding: 15px;
-            margin: 20px 0;
-        }
-        .back-link {
-            display: inline-block;
-            margin-top: 20px;
-            color: #007bff;
-            text-decoration: none;
-        }
-        .back-link:hover {
-            text-decoration: underline;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: #FFFFFF; color: #212B32; line-height: 1.6; font-size: 16px; }
+
+        .home-link { background: #FFFFFF; padding: 0.75rem 2rem; border-bottom: 1px solid #D8DDE0; }
+        .home-link a { color: #005EB8; text-decoration: none; font-size: 0.9rem; font-weight: 600; }
+        .home-link a:hover { text-decoration: underline; }
+
+        .header { background: #005EB8; padding: 1.5rem 2rem; }
+        .header-content { max-width: 1200px; margin: 0 auto; }
+        .header h1 { color: #FFFFFF; font-size: 1.75rem; font-weight: 700; margin-bottom: 0.25rem; }
+        .header p { color: #FFFFFF; font-size: 1rem; opacity: 0.95; }
+
+        .info-banner { background: #FFFFFF; padding: 1.25rem 2rem; border-bottom: 3px solid #005EB8; }
+        .info-banner-content { max-width: 1200px; margin: 0 auto; font-size: 0.95rem; color: #4C6272; }
+
+        .nav { background: #FFFFFF; padding: 0.75rem 2rem; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid #D8DDE0; }
+        .nav-inner { max-width: 1200px; margin: 0 auto; display: flex; gap: 0.25rem; overflow-x: auto; }
+        .nav-btn { padding: 0.6rem 1rem; border: none; background: #FFFFFF; font-family: Arial, sans-serif; font-size: 0.9rem; font-weight: 600; color: #005EB8; cursor: pointer; border-radius: 4px; white-space: nowrap; }
+        .nav-btn:hover { background: #F0F4F5; }
+        .nav-btn.active { background: #005EB8; color: #FFFFFF; }
+
+        .main { max-width: 1200px; margin: 0 auto; padding: 2rem; background: #FFFFFF; }
+
+        .legend { background: #FFFFFF; border: 1px solid #D8DDE0; border-left: 4px solid #005EB8; padding: 1.5rem; margin-bottom: 2rem; }
+        .legend h2 { font-size: 1.2rem; color: #005EB8; margin-bottom: 1rem; font-weight: 700; }
+        .legend-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem; }
+        .legend-item { display: flex; align-items: center; gap: 0.75rem; font-size: 0.9rem; color: #4C6272; }
+
+        .badge { display: inline-flex; align-items: center; justify-content: center; min-width: 26px; height: 26px; padding: 0 6px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; }
+        .badge-healthier { background: #CCE5D6; color: #007F3B; }
+        .badge-energy { background: #FDEACC; color: #B36200; }
+        .badge-protein { background: #CCE0F5; color: #003087; }
+        .badge-easy { background: #F5D9E8; color: #AE2573; }
+        .badge-vegetarian { background: #D4EDCC; color: #006428; }
+        .badge-vegan { background: #E8CCF5; color: #330072; }
+        .badge-gluten { background: #FFF4CC; color: #8A6D00; }
+
+        .section { margin-bottom: 2.5rem; }
+        .section-header { margin-bottom: 1.25rem; padding-bottom: 0.75rem; border-bottom: 3px solid #005EB8; }
+        .section-title { font-size: 1.4rem; color: #005EB8; font-weight: 700; }
+
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
+        .menu-card { background: #FFFFFF; border: 1px solid #D8DDE0; border-radius: 4px; padding: 1.25rem; }
+        .menu-card:hover { border-color: #005EB8; }
+        .menu-card h3 { font-size: 1.05rem; color: #212B32; margin-bottom: 0.4rem; font-weight: 700; }
+        .menu-card p { font-size: 0.9rem; color: #4C6272; margin-bottom: 0.75rem; }
+        .menu-badges { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+        .menu-badge { font-size: 0.7rem; padding: 0.2rem 0.5rem; border-radius: 3px; font-weight: 600; }
+
+        .subsection { margin-bottom: 1.75rem; }
+        .subsection-title { font-size: 1.1rem; color: #003087; margin-bottom: 1rem; padding-left: 0.75rem; border-left: 4px solid #41B6E6; font-weight: 700; }
+        .subsection-note { margin-bottom: 1rem; color: #4C6272; font-size: 0.9rem; }
+
+        .simple-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.5rem; }
+        .simple-item { background: #FFFFFF; border: 1px solid #D8DDE0; padding: 0.75rem 1rem; border-radius: 4px; display: flex; align-items: center; justify-content: space-between; font-size: 0.95rem; }
+        .simple-item:hover { border-color: #005EB8; }
+
+        .accompaniments-grid { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+        .accompaniment-chip { background: #F0F4F5; padding: 0.5rem 0.9rem; border-radius: 4px; font-size: 0.9rem; }
+
+        .halal-section { background: #FFFFFF; border: 2px solid #003087; border-radius: 4px; padding: 1.5rem; margin-bottom: 1.5rem; }
+        .halal-badge { display: inline-block; background: #003087; color: white; padding: 0.4rem 0.8rem; border-radius: 4px; font-size: 0.85rem; font-weight: 700; margin-bottom: 1rem; }
+
+        .info-card { background: #005EB8; color: white; border-radius: 4px; padding: 1.5rem; margin-bottom: 1.5rem; }
+        .info-card h3 { font-size: 1.1rem; margin-bottom: 0.75rem; font-weight: 700; }
+        .info-card p { opacity: 0.95; line-height: 1.6; font-size: 0.95rem; }
+
+        .footer { background: #003087; color: rgba(255,255,255,0.9); padding: 2rem; margin-top: 3rem; }
+        .footer-content { max-width: 1200px; margin: 0 auto; }
+        .footer p { margin-bottom: 1rem; font-size: 0.9rem; line-height: 1.6; }
+        .footer-note { font-size: 0.8rem; opacity: 0.8; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.2); }
+
+        @media (max-width: 768px) {
+            .menu-grid, .simple-list { grid-template-columns: 1fr; }
+            .header h1 { font-size: 1.4rem; }
         }
     </style>
 </head>
 <body>
-    <h1>Patient Menus</h1>
-
-    <div class="disclaimer">
-        <strong>Disclaimer:</strong> This is a collection of information and is not official or endorsed by the NHS or University Hospitals Leicester.
+    <div class="home-link">
+        <a href="../index.html">&larr; Back to UHL Guide Home</a>
     </div>
 
-    <p>Content coming soon...</p>
+    <header class="header">
+        <div class="header-content">
+            <h1>Patient Menu</h1>
+            <p>Freshly cooked, nutritious food to support your recovery</p>
+        </div>
+    </header>
 
-    <a href="../index.html" class="back-link">&larr; Back to Guide</a>
+    <div class="info-banner">
+        <div class="info-banner-content">
+            <strong>Meal ordering times:</strong> 9:00am – 11:00am for lunch, and 1:00pm – 3:00pm for dinner. If you need to be away from the ward, please let a member of staff know your meal choice.
+        </div>
+    </div>
+
+    <nav class="nav">
+        <div class="nav-inner">
+            <button class="nav-btn active" onclick="scrollToSection('breakfast')">Breakfast</button>
+            <button class="nav-btn" onclick="scrollToSection('appetisers')">Appetisers</button>
+            <button class="nav-btn" onclick="scrollToSection('mains')">Main Courses</button>
+            <button class="nav-btn" onclick="scrollToSection('vegetarian')">Vegetarian</button>
+            <button class="nav-btn" onclick="scrollToSection('halal')">Halal</button>
+            <button class="nav-btn" onclick="scrollToSection('lighter')">Lighter Meals</button>
+            <button class="nav-btn" onclick="scrollToSection('desserts')">Desserts</button>
+            <button class="nav-btn" onclick="scrollToSection('snacks')">Snacks</button>
+            <button class="nav-btn" onclick="scrollToSection('beverages')">Beverages</button>
+        </div>
+    </nav>
+
+    <main class="main">
+        <section class="legend">
+            <h2>Menu Codes</h2>
+            <div class="legend-grid">
+                <div class="legend-item"><span class="badge badge-healthier">H</span><span>Healthier Choice</span></div>
+                <div class="legend-item"><span class="badge badge-energy">E</span><span>Higher Energy</span></div>
+                <div class="legend-item"><span class="badge badge-protein">P</span><span>Higher Protein</span></div>
+                <div class="legend-item"><span class="badge badge-easy">EC</span><span>Easy to Chew</span></div>
+                <div class="legend-item"><span class="badge badge-vegetarian">V</span><span>Vegetarian</span></div>
+                <div class="legend-item"><span class="badge badge-vegan">VG</span><span>Vegan</span></div>
+                <div class="legend-item"><span class="badge badge-gluten">GF</span><span>Gluten Free</span></div>
+            </div>
+        </section>
+
+        <section class="section" id="breakfast">
+            <div class="section-header"><h2 class="section-title">Breakfast Menu</h2></div>
+            <p class="subsection-note">Served with Semi Skimmed or Full Fat Milk. Gluten free options available on request.</p>
+
+            <div class="subsection">
+                <h3 class="subsection-title">Cereals</h3>
+                <div class="simple-list">
+                    <div class="simple-item"><span>Cornflakes</span><span class="badge badge-vegetarian">V</span></div>
+                    <div class="simple-item"><span>Rice Krispies</span><span class="badge badge-vegetarian">V</span></div>
+                    <div class="simple-item"><span>Bran Flakes</span><span class="badge badge-vegetarian">V</span></div>
+                    <div class="simple-item"><span>Weetabix</span><span class="badge badge-vegan">VG</span></div>
+                    <div class="simple-item"><span>Ready Brek</span><span class="badge badge-vegetarian">V</span></div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">Toast and Bread</h3>
+                <div class="simple-list">
+                    <div class="simple-item"><span>White or Wholemeal Toast</span><span class="badge badge-vegan">VG</span></div>
+                    <div class="simple-item"><span>White or Wholemeal Bread</span><span class="badge badge-vegan">VG</span></div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">Spreads and Condiments</h3>
+                <div class="accompaniments-grid">
+                    <span class="accompaniment-chip">Sunflower Spread (vegan)</span>
+                    <span class="accompaniment-chip">Butter</span>
+                    <span class="accompaniment-chip">Jam or Marmalade</span>
+                    <span class="accompaniment-chip">Marmite (vegan)</span>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">Fruit and Yoghurt</h3>
+                <div class="simple-list">
+                    <div class="simple-item"><span>Orange Juice or Apple Juice</span><span class="badge badge-vegan">VG</span></div>
+                    <div class="simple-item"><span>Banana</span><span class="badge badge-vegan">VG</span></div>
+                    <div class="simple-item"><span>Orange or Apple</span><span class="badge badge-vegan">VG</span></div>
+                    <div class="simple-item"><span>Thick and Creamy Yoghurt</span><span class="badge badge-vegetarian">V</span></div>
+                    <div class="simple-item"><span>Light Yoghurt</span><span class="badge badge-healthier">H</span></div>
+                    <div class="simple-item"><span>Cheese and Crackers</span><span class="badge badge-vegetarian">V</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="appetisers">
+            <div class="section-header"><h2 class="section-title">Appetisers</h2></div>
+            <div class="menu-grid">
+                <div class="menu-card"><h3>Fruit Juice</h3><p>Orange or Apple</p><div class="menu-badges"><span class="menu-badge badge-vegan">Vegan</span></div></div>
+                <div class="menu-card"><h3>Melba Toast</h3><p>Crisp, thin toasted bread</p><div class="menu-badges"><span class="menu-badge badge-vegetarian">Vegetarian</span></div></div>
+                <div class="menu-card"><h3>Small Mixed Salad</h3><p>With Honey and Mustard Dip</p><div class="menu-badges"><span class="menu-badge badge-healthier">Healthier</span><span class="menu-badge badge-vegetarian">Vegetarian</span></div></div>
+                <div class="menu-card"><h3>Crusty White Roll</h3><p>Freshly baked</p><div class="menu-badges"><span class="menu-badge badge-vegetarian">Vegetarian</span></div></div>
+                <div class="menu-card"><h3>Crusty Brown Roll</h3><p>Wholemeal option</p><div class="menu-badges"><span class="menu-badge badge-vegetarian">Vegetarian</span></div></div>
+                <div class="menu-card"><h3>Sliced White Bap</h3><p>With Sunflower Spread, Butter or Cream Cheese</p><div class="menu-badges"><span class="menu-badge badge-vegetarian">Vegetarian</span></div></div>
+            </div>
+        </section>
+
+        <section class="section" id="mains">
+            <div class="section-header"><h2 class="section-title">Main Courses</h2></div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">Fish</h3>
+                <p class="subsection-note">All fish is from sustainable sources and may contain small bones.</p>
+                <div class="menu-grid">
+                    <div class="menu-card"><h3>Fish in Parsley Sauce</h3><p>Whitefish in creamy parsley sauce with mashed potato</p><div class="menu-badges"><span class="menu-badge badge-gluten">Gluten Free</span><span class="menu-badge badge-easy">Easy to Chew</span></div></div>
+                    <div class="menu-card"><h3>Creamy Salmon Pasta</h3><p>Pasta in garlic herb sauce with salmon, spinach and mushrooms</p><div class="menu-badges"><span class="menu-badge badge-protein">High Protein</span></div></div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">Beef and Pork</h3>
+                <div class="menu-grid">
+                    <div class="menu-card"><h3>Cottage Pie</h3><p>Minced beef in rich gravy topped with mashed potato</p><div class="menu-badges"><span class="menu-badge badge-protein">High Protein</span><span class="menu-badge badge-easy">Easy to Chew</span></div></div>
+                    <div class="menu-card"><h3>Beef Pasta Bolognese</h3><p>Pasta in rich minced beef, tomato and herb sauce</p><div class="menu-badges"><span class="menu-badge badge-protein">High Protein</span></div></div>
+                    <div class="menu-card"><h3>All Day Breakfast</h3><p>Lincolnshire sausage, bacon, omelette, beans, hash brown</p><div class="menu-badges"><span class="menu-badge badge-energy">High Energy</span><span class="menu-badge badge-protein">High Protein</span></div></div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">Chicken</h3>
+                <div class="menu-grid">
+                    <div class="menu-card"><h3>Roast Chicken</h3><p>Chicken breast in gravy with roast potatoes and vegetables</p><div class="menu-badges"><span class="menu-badge badge-protein">High Protein</span></div></div>
+                    <div class="menu-card"><h3>Chicken, Leek and Gammon Pie</h3><p>Shortcrust pie with mashed potatoes and mushy peas</p><div class="menu-badges"><span class="menu-badge badge-energy">High Energy</span><span class="menu-badge badge-protein">High Protein</span></div></div>
+                    <div class="menu-card"><h3>Chicken and Mushroom Casserole</h3><p>Tender chicken in creamy sauce with dumpling</p><div class="menu-badges"><span class="menu-badge badge-easy">Easy to Chew</span><span class="menu-badge badge-protein">High Protein</span></div></div>
+                    <div class="menu-card"><h3>Chicken Goujons and Potato Wedges</h3><p>With carrot batons and broccoli</p><div class="menu-badges"><span class="menu-badge badge-protein">High Protein</span></div></div>
+                    <div class="menu-card"><h3>Creamy Chicken and Mushroom Pasta</h3><p>Pasta with chicken in creamy sauce with spinach</p><div class="menu-badges"><span class="menu-badge badge-protein">High Protein</span></div></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="vegetarian">
+            <div class="section-header"><h2 class="section-title">Vegetarian and Vegan</h2></div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">Main Dishes</h3>
+                <div class="menu-grid">
+                    <div class="menu-card"><h3>Cheese and Tomato Pasta</h3><p>Pasta in tomato sauce with Cheddar and Regato cheese</p><div class="menu-badges"><span class="menu-badge badge-vegetarian">Vegetarian</span><span class="menu-badge badge-easy">Easy to Chew</span></div></div>
+                    <div class="menu-card"><h3>All Day Vegetarian Breakfast</h3><p>Veggie rashers, beans, mushrooms and hash browns</p><div class="menu-badges"><span class="menu-badge badge-vegetarian">Vegetarian</span><span class="menu-badge badge-energy">High Energy</span></div></div>
+                    <div class="menu-card"><h3>Shepherds Pie</h3><p>Lentils and vegetables topped with creamy mash</p><div class="menu-badges"><span class="menu-badge badge-vegan">Vegan</span><span class="menu-badge badge-easy">Easy to Chew</span></div></div>
+                    <div class="menu-card"><h3>Plain Omelette</h3><p>Served with seasoned potato wedges</p><div class="menu-badges"><span class="menu-badge badge-vegetarian">Vegetarian</span><span class="menu-badge badge-gluten">Gluten Free</span></div></div>
+                    <div class="menu-card"><h3>Vegetarian Sausages</h3><p>With potato wedges, coleslaw and baked beans</p><div class="menu-badges"><span class="menu-badge badge-vegetarian">Vegetarian</span></div></div>
+                    <div class="menu-card"><h3>Meat Free Pasta Bolognese</h3><p>Pasta in tomato sauce with Soya mince</p><div class="menu-badges"><span class="menu-badge badge-vegan">Vegan</span></div></div>
+                    <div class="menu-card"><h3>Smokey Bean Chilli</h3><p>Sweet potato, beans and peppers with brown rice</p><div class="menu-badges"><span class="menu-badge badge-vegan">Vegan</span><span class="menu-badge badge-healthier">Healthier</span></div></div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">Curries</h3>
+                <div class="menu-grid">
+                    <div class="menu-card"><h3>Alu Brinjal Peas</h3><p>Potato and Aubergine Curry with Chana Dal and Rice</p><div class="menu-badges"><span class="menu-badge badge-vegan">Vegan</span><span class="menu-badge badge-gluten">GF</span></div></div>
+                    <div class="menu-card"><h3>Alu Gobi</h3><p>Cauliflower and Potato Curry with Dal and Saffron Rice</p><div class="menu-badges"><span class="menu-badge badge-vegan">Vegan</span></div></div>
+                    <div class="menu-card"><h3>Aubergine Kala Chana</h3><p>Aubergine and Black Chickpeas with Jeera Rice</p><div class="menu-badges"><span class="menu-badge badge-vegan">Vegan</span></div></div>
+                    <div class="menu-card"><h3>Aubergine Potato</h3><p>With Spinach Chhole and Pilau Rice</p><div class="menu-badges"><span class="menu-badge badge-vegan">Vegan</span></div></div>
+                    <div class="menu-card"><h3>Methi Paneer</h3><p>Indian Cottage Cheese in Fenugreek Sauce with Dal</p><div class="menu-badges"><span class="menu-badge badge-vegetarian">Vegetarian</span></div></div>
+                    <div class="menu-card"><h3>Kadai Vegetables</h3><p>Mixed Vegetables with Kala Chana and Saag Rice</p><div class="menu-badges"><span class="menu-badge badge-vegetarian">Vegetarian</span></div></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="halal">
+            <div class="section-header"><h2 class="section-title">Halal Options</h2></div>
+            <div class="halal-section">
+                <span class="halal-badge">HMC Approved Halal</span>
+                <p class="subsection-note">Curried Mutton, Chicken and Fish</p>
+                <div class="menu-grid">
+                    <div class="menu-card"><h3>Alu Gosht</h3><p>Mutton and Potato Curry with Rajasthani Dal and Saffron Rice</p><div class="menu-badges"><span class="menu-badge badge-gluten">GF</span><span class="menu-badge badge-protein">High Protein</span></div></div>
+                    <div class="menu-card"><h3>Masala Gosht</h3><p>Mutton in Masala Sauce with Mixed Dal and Basmati Rice</p><div class="menu-badges"><span class="menu-badge badge-gluten">GF</span><span class="menu-badge badge-protein">High Protein</span></div></div>
+                    <div class="menu-card"><h3>Saag Gosht</h3><p>Mutton and Spinach Curry with Chana Dal and Rice</p><div class="menu-badges"><span class="menu-badge badge-gluten">GF</span><span class="menu-badge badge-protein">High Protein</span></div></div>
+                    <div class="menu-card"><h3>Chicken Coconut</h3><p>With Mixed Dal and Basmati Rice</p><div class="menu-badges"><span class="menu-badge badge-gluten">GF</span><span class="menu-badge badge-protein">High Protein</span></div></div>
+                    <div class="menu-card"><h3>Chicken Saag</h3><p>Chicken and Spinach Curry with Dal and Saffron Rice</p><div class="menu-badges"><span class="menu-badge badge-gluten">GF</span><span class="menu-badge badge-protein">High Protein</span></div></div>
+                    <div class="menu-card"><h3>Chicken Dal</h3><p>Chicken and Lentil Curry with Kadai Vegetables</p><div class="menu-badges"><span class="menu-badge badge-protein">High Protein</span></div></div>
+                    <div class="menu-card"><h3>Coconut Fish</h3><p>With Saag Chhole and Pilau Rice</p><div class="menu-badges"><span class="menu-badge badge-gluten">GF</span></div></div>
+                    <div class="menu-card"><h3>Fish Curry</h3><p>With Split Masoor Dal and Saag Rice</p><div class="menu-badges"><span class="menu-badge badge-gluten">GF</span></div></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="lighter">
+            <div class="section-header"><h2 class="section-title">Lighter Options</h2></div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">Smaller Energy Dense Meals</h3>
+                <p class="subsection-note">Suitable for people with smaller appetites.</p>
+                <div class="menu-grid">
+                    <div class="menu-card"><h3>Salmon Bake</h3><p>Salmon and peas in cheese sauce with fried potato</p><div class="menu-badges"><span class="menu-badge badge-protein">High Protein</span><span class="menu-badge badge-gluten">GF</span></div></div>
+                    <div class="menu-card"><h3>Corned Beef Hash</h3><p>With fried diced potato</p><div class="menu-badges"><span class="menu-badge badge-protein">High Protein</span></div></div>
+                    <div class="menu-card"><h3>Macaroni Cheese</h3><p>Macaroni in mature Cheddar sauce</p><div class="menu-badges"><span class="menu-badge badge-vegetarian">Vegetarian</span><span class="menu-badge badge-easy">Easy to Chew</span></div></div>
+                    <div class="menu-card"><h3>Cheese and Potato Bake</h3><p>Served with broccoli</p><div class="menu-badges"><span class="menu-badge badge-vegetarian">Vegetarian</span><span class="menu-badge badge-gluten">GF</span></div></div>
+                    <div class="menu-card"><h3>Pasta Carbonara</h3><p>With chicken, mushroom and ham</p><div class="menu-badges"><span class="menu-badge badge-protein">High Protein</span></div></div>
+                    <div class="menu-card"><h3>Chicken Hotpot</h3><p>Chicken in gravy with swede and saute potatoes</p><div class="menu-badges"><span class="menu-badge badge-protein">High Protein</span><span class="menu-badge badge-easy">Easy to Chew</span></div></div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">Jacket Potatoes</h3>
+                <p class="subsection-note">Served with Sunflower Spread or Butter and a choice of filling.</p>
+                <div class="simple-list">
+                    <div class="simple-item"><span>Grated Cheddar Cheese</span><span class="badge badge-vegetarian">V</span></div>
+                    <div class="simple-item"><span>Tuna Mayonnaise</span><span class="badge badge-protein">P</span></div>
+                    <div class="simple-item"><span>Plain Tuna</span><span class="badge badge-healthier">H</span></div>
+                    <div class="simple-item"><span>Baked Beans</span><span class="badge badge-vegan">VG</span></div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">Salads</h3>
+                <div class="simple-list">
+                    <div class="simple-item"><span>Chicken Salad</span><span class="badge badge-protein">P</span></div>
+                    <div class="simple-item"><span>Wiltshire Ham Salad</span><span class="badge badge-protein">P</span></div>
+                    <div class="simple-item"><span>Tuna Mayo Salad</span><span class="badge badge-protein">P</span></div>
+                    <div class="simple-item"><span>Cheese Salad</span><span class="badge badge-vegetarian">V</span></div>
+                    <div class="simple-item"><span>Egg Mayo Salad</span><span class="badge badge-vegetarian">V</span></div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">Sandwiches</h3>
+                <p class="subsection-note">Available on White or Wholemeal Bread. Gluten Free and Vegan options available.</p>
+                <div class="simple-list">
+                    <div class="simple-item"><span>Tuna Mayonnaise</span><span class="badge badge-protein">P</span></div>
+                    <div class="simple-item"><span>Chicken</span><span class="badge badge-protein">P</span></div>
+                    <div class="simple-item"><span>Mild Cheddar Cheese</span><span class="badge badge-vegetarian">V</span></div>
+                    <div class="simple-item"><span>Ham</span><span class="badge badge-protein">P</span></div>
+                    <div class="simple-item"><span>Egg Mayonnaise</span><span class="badge badge-vegetarian">V</span></div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">Nourishing Soups</h3>
+                <div class="simple-list">
+                    <div class="simple-item"><span>Tomato and Lentil Soup</span><span class="badge badge-vegan">VG</span></div>
+                    <div class="simple-item"><span>Chicken Soup</span><span class="badge badge-easy">EC</span></div>
+                    <div class="simple-item"><span>Cheesy Leek and Potato Soup</span><span class="badge badge-vegetarian">V</span></div>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <h3>The Snack Bag</h3>
+                <p>Available 24 hours a day if you have missed a meal. Contains a sandwich, fruit, crisps, cake and juice. Renal, vegan, easy to chew and gluten free versions available. Ask ward nursing staff.</p>
+            </div>
+        </section>
+
+        <section class="section" id="desserts">
+            <div class="section-header"><h2 class="section-title">Desserts</h2></div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">Hot Desserts</h3>
+                <div class="menu-grid">
+                    <div class="menu-card"><h3>Ginger Sponge</h3><p>Warm ginger sponge pudding</p><div class="menu-badges"><span class="menu-badge badge-vegetarian">Vegetarian</span><span class="menu-badge badge-energy">High Energy</span></div></div>
+                    <div class="menu-card"><h3>Lemon Sponge</h3><p>Light and zesty</p><div class="menu-badges"><span class="menu-badge badge-vegetarian">Vegetarian</span><span class="menu-badge badge-energy">High Energy</span></div></div>
+                    <div class="menu-card"><h3>Raspberry Jam Sponge</h3><p>Classic jam sponge with custard</p><div class="menu-badges"><span class="menu-badge badge-vegetarian">Vegetarian</span></div></div>
+                    <div class="menu-card"><h3>Treacle Sponge</h3><p>Traditional treacle sponge with custard</p><div class="menu-badges"><span class="menu-badge badge-vegetarian">Vegetarian</span><span class="menu-badge badge-energy">High Energy</span></div></div>
+                    <div class="menu-card"><h3>Apple Crumble</h3><p>Served with custard</p><div class="menu-badges"><span class="menu-badge badge-vegetarian">Vegetarian</span></div></div>
+                    <div class="menu-card"><h3>Plain Custard</h3><p>Creamy vanilla custard</p><div class="menu-badges"><span class="menu-badge badge-vegetarian">Vegetarian</span><span class="menu-badge badge-gluten">GF</span></div></div>
+                    <div class="menu-card"><h3>Rice Pudding</h3><p>Creamy traditional rice pudding</p><div class="menu-badges"><span class="menu-badge badge-vegetarian">Vegetarian</span><span class="menu-badge badge-gluten">GF</span></div></div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">Cold Desserts</h3>
+                <div class="menu-grid">
+                    <div class="menu-card"><h3>Banana</h3><p>Fresh banana</p><div class="menu-badges"><span class="menu-badge badge-vegan">Vegan</span><span class="menu-badge badge-healthier">Healthier</span></div></div>
+                    <div class="menu-card"><h3>Orange or Apple</h3><p>Fresh fruit</p><div class="menu-badges"><span class="menu-badge badge-healthier">Healthier</span><span class="menu-badge badge-gluten">GF</span></div></div>
+                    <div class="menu-card"><h3>Peach and Pear in Juice</h3><p>Tinned fruit in natural juice</p><div class="menu-badges"><span class="menu-badge badge-vegan">Vegan</span><span class="menu-badge badge-healthier">Healthier</span></div></div>
+                    <div class="menu-card"><h3>Banana Custard Pot</h3><p>Banana flavoured custard</p><div class="menu-badges"><span class="menu-badge badge-vegetarian">Vegetarian</span><span class="menu-badge badge-energy">High Energy</span></div></div>
+                    <div class="menu-card"><h3>Chocolate Custard Pot</h3><p>Rich chocolate custard</p><div class="menu-badges"><span class="menu-badge badge-vegetarian">Vegetarian</span><span class="menu-badge badge-energy">High Energy</span></div></div>
+                    <div class="menu-card"><h3>Thick and Creamy Yoghurt</h3><p>Full-fat creamy yoghurt</p><div class="menu-badges"><span class="menu-badge badge-vegetarian">Vegetarian</span><span class="menu-badge badge-protein">High Protein</span></div></div>
+                    <div class="menu-card"><h3>Light Yoghurt</h3><p>Low-fat option</p><div class="menu-badges"><span class="menu-badge badge-vegetarian">Vegetarian</span><span class="menu-badge badge-healthier">Healthier</span></div></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="snacks">
+            <div class="section-header"><h2 class="section-title">Snack Menu</h2></div>
+            <p class="subsection-note">Snacks offered three times a day with beverages. Ask your Ward Team for options.</p>
+            <div class="menu-grid">
+                <div class="menu-card"><h3>Raisins Pack</h3><div class="menu-badges"><span class="menu-badge badge-vegan">Vegan</span><span class="menu-badge badge-healthier">Healthier</span></div></div>
+                <div class="menu-card"><h3>Fresh Fruit</h3><p>Oranges, Apple, Banana</p><div class="menu-badges"><span class="menu-badge badge-vegan">Vegan</span></div></div>
+                <div class="menu-card"><h3>Sliced Apple and Grape Bag</h3><div class="menu-badges"><span class="menu-badge badge-vegan">Vegan</span></div></div>
+                <div class="menu-card"><h3>Ready Salted Crisps</h3><div class="menu-badges"><span class="menu-badge badge-vegan">Vegan</span><span class="menu-badge badge-gluten">GF</span></div></div>
+                <div class="menu-card"><h3>Skips</h3><div class="menu-badges"><span class="menu-badge badge-vegetarian">Vegetarian</span></div></div>
+                <div class="menu-card"><h3>Custard Pots</h3><p>Plain, Banana or Chocolate</p><div class="menu-badges"><span class="menu-badge badge-vegetarian">Vegetarian</span></div></div>
+                <div class="menu-card"><h3>Assorted Biscuits</h3><div class="menu-badges"><span class="menu-badge badge-vegetarian">Vegetarian</span></div></div>
+                <div class="menu-card"><h3>Cakes</h3><p>Madeira, Carrot, Lemon Drizzle, Bakewell</p><div class="menu-badges"><span class="menu-badge badge-vegetarian">Vegetarian</span></div></div>
+                <div class="menu-card"><h3>Cheese and Crackers</h3><p>With Sunflower Spread or Butter</p><div class="menu-badges"><span class="menu-badge badge-vegetarian">Vegetarian</span><span class="menu-badge badge-protein">High Protein</span></div></div>
+            </div>
+        </section>
+
+        <section class="section" id="beverages">
+            <div class="section-header"><h2 class="section-title">Beverages</h2></div>
+            <p class="subsection-note">Available during Ward drinks round. Ask Ward Staff for alternatives to cows milk.</p>
+            <div class="simple-list">
+                <div class="simple-item"><span>Tea (Regular or Decaffeinated)</span><span class="badge badge-vegan">VG</span></div>
+                <div class="simple-item"><span>Coffee (Regular or Decaffeinated)</span><span class="badge badge-vegan">VG</span></div>
+                <div class="simple-item"><span>Herbal Tea</span><span class="badge badge-vegan">VG</span></div>
+                <div class="simple-item"><span>Malted Tea</span><span class="badge badge-vegetarian">V</span></div>
+                <div class="simple-item"><span>Hot Chocolate</span><span class="badge badge-vegetarian">V</span></div>
+                <div class="simple-item"><span>Orange Juice or Apple Juice</span><span class="badge badge-vegan">VG</span></div>
+                <div class="simple-item"><span>Squash (Orange, Lemon, Blackcurrant)</span><span class="badge badge-vegan">VG</span></div>
+                <div class="simple-item"><span>Milk (Semi-skimmed or Full Fat)</span><span class="badge badge-vegetarian">V</span></div>
+            </div>
+        </section>
+
+        <section class="section" id="accompaniments">
+            <div class="section-header"><h2 class="section-title">Accompaniments</h2></div>
+            <p class="subsection-note">Additional choices to accompany any meal.</p>
+            <div class="accompaniments-grid">
+                <span class="accompaniment-chip">Grated Cheddar Cheese</span>
+                <span class="accompaniment-chip">Baked Beans (vegan)</span>
+                <span class="accompaniment-chip">Side Salad</span>
+                <span class="accompaniment-chip">Gravy (vegan)</span>
+                <span class="accompaniment-chip">Mini Naan</span>
+                <span class="accompaniment-chip">Natural Yoghurt</span>
+                <span class="accompaniment-chip">Crusty Rolls</span>
+                <span class="accompaniment-chip">Sliced White Bap</span>
+                <span class="accompaniment-chip">Tomato Ketchup</span>
+                <span class="accompaniment-chip">Brown Sauce</span>
+                <span class="accompaniment-chip">Salad Cream</span>
+                <span class="accompaniment-chip">English Mustard</span>
+                <span class="accompaniment-chip">Vinegar</span>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p><strong>Food Allergies and Intolerances:</strong> If you have a food allergy or intolerance, please speak to Ward Staff before ordering. Further Allergen information is available.</p>
+            <p>Special dietary menus available: Kosher, Caribbean and West Indian, Vegan, Jain, Allergen Aware, Gluten Free, Low Lactose, Modified Fibre, and Modified Texture (level 4-6).</p>
+            <p class="footer-note">Compass Group PLC | JBN: 90734 LEICESTER</p>
+        </div>
+    </footer>
+
+    <script>
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                const nav = document.querySelector('.nav');
+                const top = el.getBoundingClientRect().top + window.pageYOffset - nav.offsetHeight - 20;
+                window.scrollTo({ top, behavior: 'smooth' });
+            }
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+    </script>
 </body>
 </html>
