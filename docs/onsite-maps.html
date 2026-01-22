@@ -11,9 +11,32 @@
             margin: 0 auto;
             padding: 20px;
             line-height: 1.6;
+            background-color: #f5f5f5;
+        }
+        .home-link {
+            background: #FFFFFF;
+            padding: 15px 20px;
+            margin: -20px -20px 20px -20px;
+            border-bottom: 1px solid #D8DDE0;
+        }
+        .home-link a {
+            color: #005EB8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        .home-link a:hover {
+            text-decoration: underline;
         }
         h1 {
-            color: #333;
+            color: #005EB8;
+            margin-bottom: 10px;
+        }
+        h2 {
+            color: #003087;
+            font-size: 1.2rem;
+            margin-top: 30px;
+            margin-bottom: 20px;
         }
         .disclaimer {
             background-color: #fff3cd;
@@ -21,26 +44,73 @@
             padding: 15px;
             margin: 20px 0;
         }
-        .back-link {
-            display: inline-block;
+        .map-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
             margin-top: 20px;
-            color: #007bff;
-            text-decoration: none;
         }
-        .back-link:hover {
-            text-decoration: underline;
+        .map-card {
+            background: #FFFFFF;
+            border: 1px solid #D8DDE0;
+            border-radius: 8px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+        .map-card:hover {
+            border-color: #005EB8;
+            box-shadow: 0 2px 8px rgba(0, 94, 184, 0.1);
+        }
+        .map-card h3 {
+            color: #005EB8;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        .map-card a {
+            display: inline-block;
+            background: #005EB8;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        .map-card a:hover {
+            background: #003087;
+        }
+        .map-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
+    <div class="home-link">
+        <a href="../index.html">&larr; Back to UHL Guide Home</a>
+    </div>
+
     <h1>Onsite Maps</h1>
 
     <div class="disclaimer">
         <strong>Disclaimer:</strong> This is a collection of information and is not official or endorsed by the NHS or University Hospitals Leicester.
     </div>
 
-    <p>Content coming soon...</p>
+    <h2>Onsite inside maps and guidance links</h2>
 
-    <a href="../index.html" class="back-link">&larr; Back to Guide</a>
+    <div class="map-grid">
+        <div class="map-card">
+            <div class="map-icon">🏥</div>
+            <h3>Maternity Entrance</h3>
+            <a href="https://use.mazemap.com/#v=1&config=LGH&center=-1.079446,52.630579&zoom=17.5&campusid=2139&zlevel=1&starttype=poi&start=1002559243" target="_blank" rel="noopener noreferrer">View Map</a>
+        </div>
+
+        <div class="map-card">
+            <div class="map-icon">🚪</div>
+            <h3>Main Entrance</h3>
+            <a href="https://use.mazemap.com/#v=1&config=LGH&campusid=2139&zlevel=1&center=-1.082741,52.629563&zoom=18&search=main&sharepoitype=poi&sharepoi=1002612821" target="_blank" rel="noopener noreferrer">View Map</a>
+        </div>
+    </div>
 </body>
 </html>
